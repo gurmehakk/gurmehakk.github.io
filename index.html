@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gurmehak — HireSwift</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --org:#fc8019;--org2:#e8710a;--org3:#fff3e9;
+  --bg:#f2f2f2;--white:#fff;
+  --text:#1c1c1c;--text2:#686b78;--text3:#93959f;
+  --border:#e9e9eb;--border2:#d4d5d9;
+  --green:#60b246;--green2:#eafbdf;
+  --blue:#1a73e8;--red:#d32f2f;
+  --dark:#282c3f;
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-weight:400;min-height:100vh;}
+
+/* NAV */
+nav{background:var(--white);border-bottom:1px solid var(--border);height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,0.08);}
+.nav-left{display:flex;align-items:center;gap:2rem;}
+.nav-logo{font-size:1.5rem;font-weight:800;color:var(--org);letter-spacing:-0.03em;}
+.nav-logo span{color:var(--dark);}
+.nav-loc{display:flex;align-items:center;gap:0.35rem;font-size:0.82rem;cursor:pointer;border-bottom:2px solid var(--dark);padding-bottom:1px;}
+.nav-loc-label{font-size:0.65rem;font-weight:700;color:var(--org);text-transform:uppercase;letter-spacing:0.05em;}
+.nav-loc-val{font-weight:700;color:var(--dark);}
+.nav-right{display:flex;align-items:center;gap:1rem;}
+.nav-link{font-size:0.82rem;font-weight:500;color:var(--text2);text-decoration:none;padding:0.4rem 0.5rem;transition:color 0.15s;}
+.nav-link:hover{color:var(--org);}
+.nav-hire-btn{background:var(--org);color:#fff;font-size:0.82rem;font-weight:700;padding:0.5rem 1.35rem;border:none;border-radius:4px;cursor:pointer;text-decoration:none;transition:background 0.2s;}
+.nav-hire-btn:hover{background:var(--org2);}
+
+/* HERO BANNER */
+.hero{
+  background:linear-gradient(135deg,var(--dark) 0%,#3d3f4f 100%);
+  padding:0;overflow:hidden;position:relative;
+}
+.hero-inner{display:flex;align-items:stretch;max-width:1100px;margin:0 auto;}
+.hero-left-panel{flex:1;padding:2.5rem 2rem 2rem;position:relative;z-index:1;}
+.hero-category{font-size:0.68rem;font-weight:700;color:var(--org);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem;}
+.hero-category::before{content:'';width:1.5rem;height:2px;background:var(--org);}
+.hero-name{font-size:1.75rem;font-weight:800;color:#fff;margin-bottom:0.2rem;line-height:1.2;}
+.hero-tagline{font-size:0.88rem;color:rgba(255,255,255,0.55);margin-bottom:1rem;}
+.hero-chips{display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+.hchip{font-size:0.68rem;font-weight:500;padding:0.22rem 0.6rem;border-radius:20px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);border:1px solid rgba(255,255,255,0.15);}
+.hero-stats-row{display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;}
+.rating-badge{display:flex;align-items:center;gap:0.3rem;background:var(--green);color:#fff;font-size:0.85rem;font-weight:700;padding:0.3rem 0.7rem;border-radius:4px;}
+.hstat{font-size:0.8rem;color:rgba(255,255,255,0.55);}
+.hstat strong{color:#fff;}
+.avail-pill{display:flex;align-items:center;gap:0.4rem;background:rgba(96,178,70,0.2);border:1px solid rgba(96,178,70,0.4);color:#4ade80;font-size:0.7rem;font-weight:600;padding:0.25rem 0.65rem;border-radius:20px;}
+.avail-dot{width:5px;height:5px;border-radius:50%;background:#4ade80;animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.2;}}
+
+/* Photo panel */
+.hero-right-panel{width:240px;flex-shrink:0;position:relative;overflow:hidden;}
+.hero-right-panel img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:brightness(0.85) contrast(1.05);}
+.hero-right-panel::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--dark) 0%,transparent 35%);z-index:1;}
+.hero-right-panel::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,var(--dark) 0%,transparent 20%);z-index:1;}
+
+/* DELIVERY BAR */
+.delivery-bar{background:var(--white);border-bottom:1px solid var(--border);padding:0.65rem 2rem;display:flex;align-items:center;gap:2rem;font-size:0.78rem;overflow-x:auto;}
+.db-item{display:flex;align-items:center;gap:0.4rem;white-space:nowrap;color:var(--text2);}
+.db-item strong{color:var(--text);}
+.db-item .icon{font-size:1rem;}
+.db-sep{color:var(--border2);}
+
+/* MAIN */
+.main{max-width:1100px;margin:0 auto;padding:1.5rem 1rem;display:grid;grid-template-columns:1fr 300px;gap:1.5rem;align-items:start;}
+
+/* CARD */
+.card{background:var(--white);border-radius:12px;border:1px solid var(--border);overflow:hidden;margin-bottom:1.25rem;box-shadow:0 1px 4px rgba(0,0,0,0.04);}
+.card-header{padding:0.9rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.card-header h2{font-size:0.95rem;font-weight:700;display:flex;align-items:center;gap:0.5rem;}
+.card-sub{font-size:0.72rem;color:var(--text3);}
+
+/* EXP */
+.exp-item{padding:1.1rem 1.25rem;border-bottom:1px solid var(--border);}
+.exp-item:last-child{border-bottom:none;}
+.exp-top{display:flex;align-items:flex-start;gap:0.85rem;margin-bottom:0.65rem;}
+.exp-logo{width:42px;height:42px;border-radius:10px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;background:var(--bg);}
+.exp-co{font-size:0.9rem;font-weight:700;color:var(--text);}
+.exp-role{font-size:0.76rem;color:var(--text2);margin-bottom:0.1rem;}
+.exp-date{font-size:0.7rem;color:var(--text3);}
+.exp-tag{font-size:0.65rem;font-weight:700;padding:0.18rem 0.5rem;border-radius:3px;margin-left:auto;white-space:nowrap;}
+.tag-live{background:var(--green2);color:var(--green);}
+.tag-done{background:#f3f4f6;color:#374151;}
+.tag-intern{background:#fff3e9;color:var(--org);}
+.bul{list-style:none;}
+.bul li{font-size:0.79rem;color:var(--text2);padding:0.28rem 0 0.28rem 1rem;position:relative;line-height:1.6;border-bottom:0.5px solid var(--border);}
+.bul li:last-child{border-bottom:none;}
+.bul li::before{content:'';position:absolute;left:0;top:0.63rem;width:0.45rem;height:0.45rem;border-radius:50%;background:var(--org);}
+.bul li strong{color:var(--text);font-weight:600;}
+.metrics{display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.6rem;}
+.mc{font-size:0.68rem;font-weight:600;padding:0.2rem 0.5rem;border-radius:3px;}
+.mc-g{background:var(--green2);color:var(--green);}
+.mc-o{background:#fff3e9;color:var(--org);}
+.mc-b{background:#eff6ff;color:var(--blue);}
+.mc-p{background:#f5f3ff;color:#6d28d9;}
+
+/* EDU */
+.edu-item{padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;gap:0.85rem;}
+.edu-item:last-child{border-bottom:none;}
+.edu-logo{width:42px;height:42px;border-radius:10px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;background:var(--bg);}
+.edu-name{font-size:0.87rem;font-weight:700;margin-bottom:0.15rem;}
+.edu-deg{font-size:0.76rem;color:var(--text2);margin-bottom:0.1rem;}
+.edu-date{font-size:0.7rem;color:var(--text3);}
+.edu-chip{display:inline-flex;font-size:0.68rem;font-weight:600;background:#eff6ff;color:var(--blue);padding:0.15rem 0.5rem;border-radius:3px;margin-top:0.3rem;white-space:normal;line-height:1.4;}
+.edu-chips-wrap{display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.5rem;}
+.edu-courses-title{font-size:0.68rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;margin-top:0.65rem;}
+.course-chips{display:flex;flex-wrap:wrap;gap:0.3rem;}
+.cchip{font-size:0.66rem;background:var(--bg);border:1px solid var(--border2);padding:0.15rem 0.48rem;border-radius:3px;color:var(--text2);}
+
+/* RESEARCH */
+.research-card{padding:1.1rem 1.25rem;}
+.rc-top{display:flex;gap:0.85rem;align-items:flex-start;}
+.rc-badge{background:#f5f3ff;border:1px solid #ddd6fe;border-radius:8px;padding:0.6rem 0.75rem;text-align:center;flex-shrink:0;min-width:60px;}
+.rc-badge-year{font-size:0.7rem;font-weight:700;color:#6d28d9;}
+.rc-badge-conf{font-size:1rem;margin-bottom:0.1rem;}
+.rc-title{font-size:0.87rem;font-weight:700;margin-bottom:0.3rem;line-height:1.4;}
+.rc-venue{font-size:0.72rem;color:#6d28d9;font-weight:600;margin-bottom:0.4rem;}
+.rc-abs{font-size:0.76rem;color:var(--text2);line-height:1.6;}
+.ichip{font-size:0.65rem;background:var(--bg);border:1px solid var(--border2);padding:0.15rem 0.45rem;border-radius:3px;color:var(--text2);}
+
+/* SKILLS GRID */
+.skills-grid{padding:1rem 1.25rem;display:grid;grid-template-columns:1fr 1fr;gap:0.65rem;}
+.skill-box{border:1px solid var(--border);border-radius:8px;padding:0.75rem;}
+.skill-box-top{display:flex;align-items:center;gap:0.4rem;margin-bottom:0.45rem;}
+.skill-box-icon{font-size:1rem;}
+.skill-box-name{font-size:0.8rem;font-weight:600;}
+.skill-chips{display:flex;flex-wrap:wrap;gap:0.3rem;}
+.sbadge{display:inline-flex;font-size:0.62rem;font-weight:700;padding:0.12rem 0.4rem;border-radius:3px;}
+.sb-best{background:var(--green2);color:var(--green);}
+.sb-new{background:#fff3e9;color:var(--org);}
+.sb-icml{background:#f5f3ff;color:#6d28d9;}
+
+/* PROJECTS GRID */
+.proj-grid{padding:1rem 1.25rem;display:grid;grid-template-columns:1fr 1fr;gap:0.65rem;}
+.proj-box{border:1px solid var(--border);border-radius:8px;padding:0.85rem;}
+.proj-emoji{font-size:1.4rem;margin-bottom:0.35rem;}
+.proj-name{font-size:0.82rem;font-weight:700;margin-bottom:0.2rem;}
+.proj-desc{font-size:0.73rem;color:var(--text2);line-height:1.5;margin-bottom:0.45rem;}
+.proj-chips{display:flex;flex-wrap:wrap;gap:0.25rem;margin-bottom:0.35rem;}
+.proj-link{font-size:0.68rem;color:var(--blue);text-decoration:none;}
+
+/* REVIEWS */
+.rev-summary{padding:1rem 1.25rem;display:flex;gap:1.25rem;align-items:center;border-bottom:1px solid var(--border);}
+.big-rat{font-size:2.8rem;font-weight:800;color:var(--text);line-height:1;}
+.stars{color:#f5a623;font-size:0.95rem;}
+.rev-count{font-size:0.72rem;color:var(--text3);}
+.rbar-row{display:flex;align-items:center;gap:0.4rem;margin-bottom:0.25rem;}
+.rbar-label{font-size:0.68rem;color:var(--text2);width:26px;text-align:right;}
+.rbar-track{flex:1;height:5px;background:var(--border);border-radius:2px;overflow:hidden;}
+.rbar-fill{height:100%;background:var(--green);border-radius:2px;}
+.rbar-count{font-size:0.66rem;color:var(--text3);width:26px;}
+.rev-card{padding:1rem 1.25rem;border-bottom:1px solid var(--border);}
+.rev-card:last-child{border-bottom:none;}
+.rev-top{display:flex;align-items:center;gap:0.6rem;margin-bottom:0.4rem;}
+.rev-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.68rem;font-weight:700;color:#fff;flex-shrink:0;}
+.rev-name{font-size:0.82rem;font-weight:600;}
+.rev-ver{font-size:0.66rem;color:var(--text3);}
+.rev-rat{font-size:0.7rem;font-weight:700;background:var(--green);color:#fff;padding:0.12rem 0.38rem;border-radius:3px;}
+.rev-time{font-size:0.66rem;color:var(--text3);margin-left:auto;}
+.rev-text{font-size:0.79rem;color:var(--text2);line-height:1.6;}
+
+/* ACHIEVEMENTS */
+.ach-grid{padding:1rem 1.25rem;display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;}
+.ach-box{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:0.65rem;display:flex;align-items:center;gap:0.5rem;}
+.ach-icon{font-size:1.1rem;}
+.ach-name{font-size:0.76rem;font-weight:600;}
+.ach-sub{font-size:0.66rem;color:var(--text3);}
+
+/* RIGHT PANEL */
+.order-card{background:var(--white);border-radius:12px;border:1px solid var(--border);overflow:hidden;margin-bottom:1.25rem;box-shadow:0 1px 4px rgba(0,0,0,0.04);}
+.order-hdr{padding:1rem 1.25rem;background:var(--org);color:#fff;}
+.order-hdr h3{font-size:0.9rem;font-weight:700;margin-bottom:0.1rem;}
+.order-hdr p{font-size:0.72rem;opacity:0.85;}
+.order-body{padding:1.1rem;}
+.del-info{background:var(--bg);border-radius:8px;padding:0.75rem;margin-bottom:0.85rem;}
+.del-row{display:flex;justify-content:space-between;font-size:0.76rem;margin-bottom:0.3rem;}
+.del-row:last-child{margin-bottom:0;}
+.dl{color:var(--text2);}
+.dv{font-weight:600;color:var(--text);}
+.dv-g{color:var(--green);}
+.dv-o{color:var(--org);}
+.promo{background:#fff3e9;border:1px solid #fcd9b6;border-radius:8px;padding:0.6rem;margin-bottom:0.85rem;display:flex;gap:0.4rem;font-size:0.72rem;color:var(--text2);}
+.promo strong{color:var(--org);}
+.o-item{display:flex;justify-content:space-between;align-items:flex-start;font-size:0.76rem;margin-bottom:0.5rem;}
+.o-name{font-weight:500;}
+.o-sub{font-size:0.68rem;color:var(--text3);}
+.o-check{color:var(--green);font-weight:700;margin-left:0.5rem;flex-shrink:0;}
+.o-div{border:none;border-top:1px dashed var(--border2);margin:0.75rem 0;}
+.o-total{display:flex;justify-content:space-between;font-size:0.85rem;font-weight:700;border-top:1px solid var(--border);padding-top:0.75rem;}
+.cta-btn{width:100%;margin-top:0.75rem;border:none;border-radius:6px;padding:0.85rem;font-size:0.85rem;font-weight:700;cursor:pointer;transition:all 0.2s;text-decoration:none;display:block;text-align:center;}
+.cta-solid{background:var(--org);color:#fff;}
+.cta-solid:hover{background:var(--org2);}
+.cta-out{background:transparent;color:var(--org);border:1.5px solid var(--org);}
+.cta-out:hover{background:#fff3e9;}
+
+/* AREAS */
+.area-wrap{padding:1rem 1.25rem;}
+.area-title{font-size:0.72rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.6rem;}
+.area-chips{display:flex;flex-wrap:wrap;gap:0.35rem;margin-bottom:0.75rem;}
+.atag{font-size:0.7rem;font-weight:500;padding:0.22rem 0.6rem;border-radius:20px;border:1px solid var(--border2);}
+.at-india{border-color:#ff9933;color:#b45309;background:#fff7ed;}
+.at-intl{border-color:#93c5fd;color:#1d4ed8;background:#eff6ff;}
+.at-note{color:var(--text3);font-style:italic;font-size:0.65rem;padding:0.22rem 0.6rem;border:1px dashed var(--border2);border-radius:20px;}
+#exp,#skills,#proj{scroll-margin-top:72px;}
+
+/* QUICK INFO */
+.qi{padding:0;}
+.qi-row{display:flex;justify-content:space-between;padding:0.7rem 1.25rem;border-bottom:1px solid var(--border);font-size:0.78rem;}
+.qi-row:last-child{border-bottom:none;}
+.qi-l{color:var(--text2);display:flex;align-items:center;gap:0.35rem;}
+.qi-v{font-weight:600;color:var(--text);}
+.qi-v-g{color:var(--green);}
+.qi-v-o{color:var(--org);}
+
+@media(max-width:768px){
+  .main{grid-template-columns:1fr;}
+  nav .nav-left .nav-loc{display:none;}
+  .nav-link{display:none;}
+  .hero-right-panel{width:160px;}
+  .delivery-bar{gap:1rem;padding:0.6rem 1rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <div class="nav-logo">Hire<span>Swift</span></div>
+    <div class="nav-loc">
+      <div>
+        <div class="nav-loc-label">Hiring From</div>
+        <div class="nav-loc-val">Bangalore, India ▾</div>
+      </div>
+    </div>
+  </div>
+  <div class="nav-right">
+    <a href="#exp" class="nav-link">Experience</a>
+    <a href="#skills" class="nav-link">Skills</a>
+    <a href="#proj" class="nav-link">Projects</a>
+    <a href="mailto:gmkaur2013@gmail.com" class="nav-hire-btn">Hire Now</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-left-panel">
+      <div class="hero-category">Backend Engineer · AI/ML Specialist</div>
+      <div class="hero-name">Gurmehak Kaur Chadha</div>
+      <div class="hero-tagline">PhonePe · MarkovML · IIIT Delhi · ICML 2025</div>
+      <div class="hero-chips">
+        <span class="hchip">Java</span><span class="hchip">Python</span><span class="hchip">LLMOps</span>
+        <span class="hchip">Kafka</span><span class="hchip">Distributed Systems</span><span class="hchip">RAG</span>
+      </div>
+      <div class="hero-stats-row">
+        <div class="rating-badge">★ 4.9</div>
+        <span class="hstat"><strong>1.2M+</strong> users</span>
+        <span style="color:rgba(255,255,255,0.25);">·</span>
+        <span class="hstat"><strong>2 yrs</strong> exp</span>
+        <span style="color:rgba(255,255,255,0.25);">·</span>
+        <span class="hstat"><strong>ICML 2025</strong></span>
+        <span style="color:rgba(255,255,255,0.25);">·</span>
+        <div class="avail-pill"><span class="avail-dot"></span>Open now</div>
+      </div>
+    </div>
+    <div class="hero-right-panel">
+      <img src="gurmehak_web.jpg" alt="Gurmehak" />
+    </div>
+  </div>
+</div>
+
+<!-- DELIVERY BAR -->
+<div class="delivery-bar">
+  <div class="db-item"><span class="icon">⏱</span><span><strong>Notice Period:</strong> ~2 months</span></div>
+  <span class="db-sep">|</span>
+  <div class="db-item"><span class="icon">📍</span><span><strong>Based in:</strong> Bangalore, India</span></div>
+  <span class="db-sep">|</span>
+  <div class="db-item"><span class="icon">✈️</span><span><strong>Open to:</strong> Germany · Netherlands · Dubai · Singapore · Canada · UK · anywhere</span></div>
+  <span class="db-sep">|</span>
+  <div class="db-item"><span class="icon">🎓</span><span><strong>IELTS:</strong> Band 8</span></div>
+  <span class="db-sep">|</span>
+  <div class="db-item"><span class="icon">🔬</span><span><strong>Research:</strong> ICML 2025 Poster</span></div>
+</div>
+
+<div class="main">
+<div>
+
+<!-- EXPERIENCE -->
+<div class="card" id="exp">
+  <div class="card-header"><h2>💼 Work Experience</h2><span class="card-sub">2 companies · 2+ years</span></div>
+
+  <div class="exp-item">
+    <div class="exp-top">
+      <div class="exp-logo">💙</div>
+      <div style="flex:1;">
+        <div class="exp-co">PhonePe Limited</div>
+        <div class="exp-role">SDE Backend · Credit Score Team</div>
+        <div class="exp-date">Sep 2025 – Present · Bangalore</div>
+      </div>
+      <span class="exp-tag tag-live">● Live</span>
+    </div>
+    <ul class="bul">
+      <li>Leading <strong>differential AI video explainer</strong> for credit scores — sole developer + intern, generates personalised videos based on delta between consecutive credit pulls</li>
+      <li>Contributed to <strong>fresh-flow video explainer</strong> launch; drove <strong>44% MoM retention uplift</strong>, video cohort hit 77% retention by March 2026 — 117% over pre-launch baseline</li>
+      <li>Built <strong>CBS Name Consent</strong> — cross-service consent solution adopted across 3 internal services, onboarding time from days/weeks → hours</li>
+      <li>Developed <strong>mismatch reporting flows</strong> with downstream reconciliation logic and <strong>Kafka pipeline tooling</strong> via Hugin for reliable Delphi DB population</li>
+    </ul>
+    <div class="metrics">
+      <span class="mc mc-g">↑ 44% retention uplift</span>
+      <span class="mc mc-b">1.2M+ users</span>
+      <span class="mc mc-o">77% MoM retention</span>
+      <span class="mc mc-p">117% uplift</span>
+      <span class="mc mc-g">60% watch rate</span>
+      <span class="mc mc-b">76% repeat start rate</span>
+    </div>
+  </div>
+
+  <div class="exp-item">
+    <div class="exp-top">
+      <div class="exp-logo">🤖</div>
+      <div style="flex:1;">
+        <div class="exp-co">MarkovML India Pvt. Ltd.</div>
+        <div class="exp-role">Software Engineer (Applied AI/ML)</div>
+        <div class="exp-date">Jun 2024 – Jul 2025 · Bangalore</div>
+      </div>
+      <span class="exp-tag tag-done">Previous</span>
+    </div>
+    <ul class="bul">
+      <li>Built <strong>retail intelligence platform + Chrome extension</strong> — real-time keyword analysis, sentiment review insights, competitor price monitoring, automated product suggestions</li>
+      <li>Designed <strong>extensible connector framework</strong> (Gong, HubSpot, Notion, Apollo) via OAuth 2.0 — cut dev time from days to hours with reusable modules</li>
+      <li>Built no-code AI workflow operators: <strong>AI Document Analyzer</strong> and waterfall enrichment system (Apollo, Full Enrich, ZoomInfo)</li>
+      <li>Led migration to <strong>Pydantic v2</strong> — improved runtime performance and type safety across all services</li>
+    </ul>
+    <div class="metrics">
+      <span class="mc mc-g">Days → Hours (connectors)</span>
+      <span class="mc mc-b">OAuth 2.0 · 5+ integrations</span>
+      <span class="mc mc-p">Pydantic v2 migration</span>
+    </div>
+  </div>
+
+  <div class="exp-item">
+    <div class="exp-top">
+      <div class="exp-logo">🤖</div>
+      <div style="flex:1;">
+        <div class="exp-co">MarkovML India Pvt. Ltd.</div>
+        <div class="exp-role">Software Engineer Intern (Applied AI/ML)</div>
+        <div class="exp-date">May 2023 – Aug 2023 · Bangalore</div>
+      </div>
+      <span class="exp-tag tag-intern">Internship</span>
+    </div>
+    <ul class="bul">
+      <li>Extended event-driven notification service with <strong>in-app notifications + Airflow integration</strong> for ML workflow events</li>
+      <li>Built <strong>Evaluations Tracking system</strong> and Azure Blob Storage connector</li>
+    </ul>
+  </div>
+
+  <div class="exp-item">
+    <div class="exp-top">
+      <div class="exp-logo">📚</div>
+      <div style="flex:1;">
+        <div class="exp-co">Extramarks Education India</div>
+        <div class="exp-role">Summer Research Intern</div>
+        <div class="exp-date">May 2022 – Jul 2022 · Noida</div>
+      </div>
+      <span class="exp-tag tag-intern">Internship</span>
+    </div>
+    <ul class="bul">
+      <li>Worked on <strong>AI-based recommendation engine</strong> for personalised learning journeys for teachers and students</li>
+    </ul>
+  </div>
+</div>
+
+<!-- EDUCATION -->
+<div class="card">
+  <div class="card-header"><h2>🎓 Education</h2></div>
+  <div class="edu-item">
+    <div class="edu-logo">🏛️</div>
+    <div style="flex:1;">
+      <div class="edu-name">IIIT Delhi</div>
+      <div class="edu-deg">B.Tech · CS & Applied Mathematics · CGPA 8.17</div>
+      <div class="edu-date">2020 – May 2024 · New Delhi</div>
+      <div class="edu-chips-wrap">
+        <span class="edu-chip">🏆 First Position · WIEHack 3.0</span>
+        <span class="edu-chip">👩‍🏫 Teaching Assistant · ML Course · Summer 2023</span>
+        <span class="edu-chip">🎓 Amazon ML Summer School</span>
+        <span class="edu-chip">🏅 Top 5 · Innovative Product Design Hackathon</span>
+        <span class="edu-chip">🎤 Best Speaker · Super Summit 2024</span>
+        <span class="edu-chip">📜 ICML 2025 Research Published</span>
+      </div>
+      <div class="edu-courses-title">Notable Courses</div>
+      <div class="course-chips">
+        <span class="cchip">Machine Learning</span>
+        <span class="cchip">Computer Vision</span>
+        <span class="cchip">NLP</span>
+        <span class="cchip">Distributed Systems</span>
+        <span class="cchip">Distributed & Federated ML</span>
+        <span class="cchip">Data Structures & Algorithms</span>
+        <span class="cchip">Computer Networks</span>
+        <span class="cchip">Operating Systems</span>
+        <span class="cchip">Database Systems</span>
+        <span class="cchip">Analysis & Design of Algorithms</span>
+        <span class="cchip">Probability & Statistics</span>
+        <span class="cchip">Linear Optimization</span>
+        <span class="cchip">Stochastic Processes</span>
+        <span class="cchip">Statistical Inference</span>
+        <span class="cchip">Real Analysis I & II</span>
+        <span class="cchip">Abstract Algebra</span>
+        <span class="cchip">Theory of Computation</span>
+        <span class="cchip">Game Theory</span>
+      </div>
+    </div>
+  </div>
+  <div class="edu-item">
+    <div class="edu-logo">🏫</div>
+    <div>
+      <div class="edu-name">Mount Carmel School, Anand Niketan</div>
+      <div class="edu-deg">Class XII · CBSE · 95.25%</div>
+      <div class="edu-date">2018 – 2019 · New Delhi</div>
+    </div>
+  </div>
+</div>
+
+<!-- RESEARCH -->
+<div class="card">
+  <div class="card-header"><h2>🔬 Research Publication</h2><span style="font-size:0.68rem;font-weight:700;background:#f5f3ff;color:#6d28d9;padding:0.15rem 0.5rem;border-radius:3px;">ICML 2025</span></div>
+  <div class="research-card">
+    <div class="rc-top">
+      <div class="rc-badge"><div class="rc-badge-conf">🏆</div><div class="rc-badge-year">ICML 2025</div></div>
+      <div>
+        <div class="rc-title">Improved Coresets for Vertical Federated Learning: Regularized Linear and Logistic Regressions</div>
+        <div class="rc-venue">Poster · International Conference on Machine Learning</div>
+        <div class="rc-abs">Introduced novel coreset construction algorithms for VFL, reducing communication complexity and data processing overhead. Improved coreset sizes by eliminating dependency on data properties.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.5rem;"><span class="ichip">Federated Learning</span><span class="ichip">Coresets</span><span class="ichip">VFL</span><span class="ichip">Privacy ML</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<div class="card" id="skills">
+  <div class="card-header"><h2>⚙️ Skills</h2><span class="card-sub">8 categories</span></div>
+  <div class="skills-grid">
+    <div class="skill-box">
+      <div class="skill-box-top"><span class="skill-box-icon">☕</span><span class="skill-box-name">Java Backend</span><span class="sbadge sb-best" style="margin-left:auto;">Best</span></div>
+      <div class="skill-chips"><span class="ichip">Java</span><span class="ichip">Dropwizard</span><span class="ichip">REST APIs</span></div>
+    </div>
+    <div class="skill-box">
+      <div class="skill-box-top"><span class="skill-box-icon">🔮</span><span class="skill-box-name">LLM Pipelines</span><span class="sbadge sb-new" style="margin-left:auto;">New</span></div>
+      <div class="skill-chips"><span class="ichip">LangGraph</span><span class="ichip">RAG</span><span class="ichip">Langfuse</span></div>
+    </div>
+    <div class="skill-box">
+      <div class="skill-box-top"><span class="skill-box-icon">⚡</span><span class="skill-box-name">Distributed Systems</span></div>
+      <div class="skill-chips"><span class="ichip">Kafka</span><span class="ichip">Event-driven</span><span class="ichip">Async</span></div>
+    </div>
+    <div class="skill-box">
+      <div class="skill-box-top"><span class="skill-box-icon">🗄️</span><span class="skill-box-name">Databases</span></div>
+      <div class="skill-chips"><span class="ichip">PostgreSQL</span><span class="ichip">Redis</span><span class="ichip">Aerospike</span><span class="ichip">MongoDB</span></div>
+    </div>
+    <div class="skill-box">
+      <div class="skill-box-top"><span class="skill-box-icon">🌩️</span><span class="skill-box-name">Cloud & Infra</span></div>
+      <div class="skill-chips"><span class="ichip">GCP</span><span class="ichip">Docker</span><span class="ichip">Kubernetes</span><span class="ichip">Airflow</span></div>
+    </div>
+    <div class="skill-box">
+      <div class="skill-box-top"><span class="skill-box-icon">🐍</span><span class="skill-box-name">Python Stack</span></div>
+      <div class="skill-chips"><span class="ichip">FastAPI</span><span class="ichip">Pydantic v2</span><span class="ichip">PyTorch</span></div>
+    </div>
+    <div class="skill-box">
+      <div class="skill-box-top"><span class="skill-box-icon">📜</span><span class="skill-box-name">Research / ML</span><span class="sbadge sb-icml" style="margin-left:auto;">ICML</span></div>
+      <div class="skill-chips"><span class="ichip">Federated Learning</span><span class="ichip">FedML</span><span class="ichip">VFL</span></div>
+    </div>
+    <div class="skill-box">
+      <div class="skill-box-top"><span class="skill-box-icon">🌍</span><span class="skill-box-name">Languages</span></div>
+      <div class="skill-chips"><span class="ichip">English (8)</span><span class="ichip">Hindi</span><span class="ichip">Punjabi</span><span class="ichip">French</span><span class="ichip">DE(A1)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<div class="card" id="proj">
+  <div class="card-header"><h2>🚀 Projects</h2><span class="card-sub">4 projects</span></div>
+  <div class="proj-grid">
+    <div class="proj-box">
+      <div class="proj-emoji">⛏️</div>
+      <div class="proj-name">FieldSync <span class="sbadge sb-new">Featured</span></div>
+      <div class="proj-desc">Mining Document AI — LLM pipelines (Gemini + Claude), LangGraph workflows, full LLMOps layer with Langfuse tracing and eval harness.</div>
+      <div class="proj-chips"><span class="ichip">FastAPI</span><span class="ichip">LangGraph</span><span class="ichip">Claude API</span><span class="ichip">Langfuse</span></div>
+    </div>
+    <div class="proj-box">
+      <div class="proj-emoji">🤖</div>
+      <div class="proj-name">Angel Assist</div>
+      <div class="proj-desc">RAG chatbot — LangChain, HuggingFace embeddings, Chroma DB, deployed on GCP Cloud Run.</div>
+      <div class="proj-chips"><span class="ichip">LangChain</span><span class="ichip">Chroma DB</span><span class="ichip">GCP</span></div>
+      <a href="https://github.com/gurmehakk/RAG_Chatbot" target="_blank" class="proj-link">↗ GitHub</a>
+    </div>
+    <div class="proj-box">
+      <div class="proj-emoji">🏅</div>
+      <div class="proj-name">Sports IIITD</div>
+      <div class="proj-desc">Sports management platform for IIIT Delhi — event management, equipment booking, team coordination.</div>
+      <div class="proj-chips"><span class="ichip">Flutter</span><span class="ichip">Firebase</span><span class="ichip">Dart</span></div>
+      <a href="https://github.com/YuvrajSingh808/sports_iiitd" target="_blank" class="proj-link">↗ GitHub</a>
+    </div>
+    <div class="proj-box">
+      <div class="proj-emoji">🚂</div>
+      <div class="proj-name">Trainetic</div>
+      <div class="proj-desc">IRCTC-style ticket reservation with DB management for trains, stations, users, payments and bookings.</div>
+      <div class="proj-chips"><span class="ichip">Flask</span><span class="ichip">SQL</span><span class="ichip">HTML/CSS</span></div>
+      <a href="https://github.com/gurmehakk/Trainetic" target="_blank" class="proj-link">↗ GitHub</a>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<div class="card">
+  <div class="card-header"><h2>⭐ Ratings & Reviews</h2></div>
+  <div class="rev-summary">
+    <div><div class="big-rat">4.9</div><div class="stars">★★★★★</div><div class="rev-count">847 ratings</div></div>
+    <div style="flex:1;">
+      <div class="rbar-row"><span class="rbar-label">5★</span><div class="rbar-track"><div class="rbar-fill" style="width:82%;"></div></div><span class="rbar-count">695</span></div>
+      <div class="rbar-row"><span class="rbar-label">4★</span><div class="rbar-track"><div class="rbar-fill" style="width:12%;"></div></div><span class="rbar-count">102</span></div>
+      <div class="rbar-row"><span class="rbar-label">3★</span><div class="rbar-track"><div class="rbar-fill" style="width:4%;"></div></div><span class="rbar-count">34</span></div>
+      <div class="rbar-row"><span class="rbar-label">2★</span><div class="rbar-track"><div class="rbar-fill" style="width:1%;"></div></div><span class="rbar-count">10</span></div>
+      <div class="rbar-row"><span class="rbar-label">1★</span><div class="rbar-track"><div class="rbar-fill" style="width:0.5%;"></div></div><span class="rbar-count">6</span></div>
+    </div>
+  </div>
+  <div class="rev-card">
+    <div class="rev-top">
+      <div class="rev-av" style="background:linear-gradient(135deg,#1565c0,#42a5f5);">P</div>
+      <div><div class="rev-name">PhonePe Credit Score Team</div><div class="rev-ver">✓ Verified Employer</div></div>
+      <div class="rev-rat">★ 5</div><div class="rev-time">2 months ago</div>
+    </div>
+    <div class="rev-text">Sole dev on a feature that hit 1.2M users with 60% watch rate. Retention numbers are insane — 44% uplift, 77% MoM. Debugs Kafka issues at 11pm without being asked. Would order again. 🚀</div>
+  </div>
+  <div class="rev-card">
+    <div class="rev-top">
+      <div class="rev-av" style="background:linear-gradient(135deg,#6b21a8,#a855f7);">M</div>
+      <div><div class="rev-name">MarkovML Engineering</div><div class="rev-ver">✓ Verified Employer</div></div>
+      <div class="rev-rat">★ 5</div><div class="rev-time">9 months ago</div>
+    </div>
+    <div class="rev-text">Built the entire connector framework from scratch. What took days now takes hours. Migrated whole backend to Pydantic v2 without a single breakage. Then built an AI document analyzer on top. Legendary. 🔥</div>
+  </div>
+  <div class="rev-card">
+    <div class="rev-top">
+      <div class="rev-av" style="background:linear-gradient(135deg,#065f46,#34d399);">I</div>
+      <div><div class="rev-name">ICML 2025 Review Committee</div><div class="rev-ver">✓ Peer Reviewed</div></div>
+      <div class="rev-rat">★ 5</div><div class="rev-time">5 months ago</div>
+    </div>
+    <div class="rev-text">Strong theoretical foundations. Novel VFL coreset work that genuinely improves on prior art. Rare combo of systems depth and ML research rigour. Accepted as poster.</div>
+  </div>
+</div>
+
+<!-- ACHIEVEMENTS -->
+<div class="card">
+  <div class="card-header"><h2>🏆 Achievements</h2></div>
+  <div class="ach-grid">
+    <div class="ach-box"><span class="ach-icon">🥇</span><div><div class="ach-name">WIEHack 3.0 Winner</div><div class="ach-sub">First Position · BVPIEEE</div></div></div>
+    <div class="ach-box"><span class="ach-icon">📜</span><div><div class="ach-name">ICML 2025 Published</div><div class="ach-sub">Poster · Peer reviewed</div></div></div>
+    <div class="ach-box"><span class="ach-icon">🎓</span><div><div class="ach-name">Amazon ML Summer School</div><div class="ach-sub">Selected participant</div></div></div>
+    <div class="ach-box"><span class="ach-icon">🎤</span><div><div class="ach-name">Best First-Time Speaker</div><div class="ach-sub">Super Summit 2024</div></div></div>
+    <div class="ach-box"><span class="ach-icon">🥇</span><div><div class="ach-name">French Olympiad Gold</div><div class="ach-sub">3 consecutive years</div></div></div>
+    <div class="ach-box"><span class="ach-icon">🏅</span><div><div class="ach-name">Top 5 · IPDH</div><div class="ach-sub">Innovative Product Design</div></div></div>
+  </div>
+</div>
+
+</div>
+
+<!-- RIGHT PANEL -->
+<div>
+  <div class="order-card">
+    <div class="order-hdr"><h3>🛒 Hire Cart</h3><p>Est. joining: ~2 months</p></div>
+    <div class="order-body">
+      <div class="promo"><span>🏷️</span><div class="promo-text">Code <strong>VISA_NEEDED</strong> for international orders</div></div>
+      <div class="del-info">
+        <div class="del-row"><span class="dl">Availability</span><span class="dv dv-g">● Open Now</span></div>
+        <div class="del-row"><span class="dl">Notice Period</span><span class="dv">~2 months</span></div>
+        <div class="del-row"><span class="dl">Mode</span><span class="dv">Hybrid / Onsite</span></div>
+        <div class="del-row"><span class="dl">Visa (Intl.)</span><span class="dv dv-o">Sponsorship needed</span></div>
+        <div class="del-row"><span class="dl">India</span><span class="dv dv-g">Ready to ship</span></div>
+      </div>
+      <div class="o-item"><div><div class="o-name">Java Backend Systems</div><div class="o-sub">2+ yrs · PhonePe production</div></div><span class="o-check">✓</span></div>
+      <div class="o-item"><div><div class="o-name">LLM / AI Pipelines</div><div class="o-sub">LangGraph · RAG · LLMOps</div></div><span class="o-check">✓</span></div>
+      <div class="o-item"><div><div class="o-name">Distributed Systems</div><div class="o-sub">Kafka · 1.2M users</div></div><span class="o-check">✓</span></div>
+      <div class="o-item"><div><div class="o-name">ICML 2025 Research</div><div class="o-sub">Federated Learning</div></div><span class="o-check">✓</span></div>
+      <div class="o-item"><div><div class="o-name">Python + FastAPI</div><div class="o-sub">Pydantic v2 · production</div></div><span class="o-check">✓</span></div>
+      <hr class="o-div"/>
+      <div class="o-total"><span>Total</span><span>Hire her 🚀</span></div>
+      <a href="mailto:gmkaur2013@gmail.com" class="cta-btn cta-solid">📧 Place Order</a>
+      <a href="https://linkedin.com/in/gurmehakk" target="_blank" class="cta-btn cta-out">LinkedIn →</a>
+      <a href="https://github.com/gurmehakk" target="_blank" class="cta-btn cta-out">GitHub →</a>
+    </div>
+  </div>
+
+  <div class="order-card">
+    <div class="card-header"><h2>📍 Delivery Areas</h2></div>
+    <div class="area-wrap">
+      <div class="area-title">🇮🇳 India — No visa needed</div>
+      <div class="area-chips">
+        <span class="atag at-india">Bangalore</span><span class="atag at-india">Delhi / NCR</span>
+        <span class="atag at-india">Noida</span><span class="atag at-india">Gurugram</span>
+        <span class="atag at-india">Mumbai</span><span class="atag at-india">Hyderabad</span>
+        <span class="atag at-india">Pune</span><span class="atag at-india">Chennai</span>
+      </div>
+      <div class="area-title">🌍 International — Visa sponsorship needed</div>
+      <div class="area-chips">
+        <span class="atag at-intl">🇩🇪 Germany</span><span class="atag at-intl">🇳🇱 Netherlands</span>
+        <span class="atag at-intl">🇦🇪 Dubai</span><span class="atag at-intl">🇸🇬 Singapore</span>
+        <span class="atag at-intl">🇨🇦 Canada</span><span class="atag at-intl">🇬🇧 UK</span>
+        <span class="atag at-note">+ anywhere globally</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="order-card">
+    <div class="card-header"><h2>ℹ️ Quick Info</h2></div>
+    <div class="qi">
+      <div class="qi-row"><span class="qi-l">🎓 Education</span><span class="qi-v">IIIT Delhi · B.Tech</span></div>
+      <div class="qi-row"><span class="qi-l">📊 CGPA</span><span class="qi-v">8.17 / 10</span></div>
+      <div class="qi-row"><span class="qi-l">🔬 Research</span><span class="qi-v">ICML 2025 Poster</span></div>
+      <div class="qi-row"><span class="qi-l">🌍 IELTS</span><span class="qi-v qi-v-g">Band 8</span></div>
+      <div class="qi-row"><span class="qi-l">🗣️ Languages</span><span class="qi-v">EN · HI · PA · FR · DE(A1)</span></div>
+      <div class="qi-row"><span class="qi-l">📅 Available</span><span class="qi-v qi-v-g">Open Now</span></div>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
